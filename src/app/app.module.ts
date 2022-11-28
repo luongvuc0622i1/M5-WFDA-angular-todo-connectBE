@@ -4,6 +4,8 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppComponent } from './app.component';
 import { TodoComponent } from './todo/todo.component';
 import {ReactiveFormsModule} from "@angular/forms";
+import {HTTP_INTERCEPTORS, HttpClient, HttpClientModule} from "@angular/common/http";
+import {TokenInterceptor} from "./token.interceptor";
 
 @NgModule({
   declarations: [
@@ -12,9 +14,14 @@ import {ReactiveFormsModule} from "@angular/forms";
   ],
     imports: [
         BrowserModule,
+        HttpClientModule,
         ReactiveFormsModule
     ],
-  providers: [],
+  providers: [{
+    provide: HTTP_INTERCEPTORS,
+    useClass: TokenInterceptor,
+    multi: true
+  }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
